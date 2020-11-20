@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="empMapper">
+	<!-- emp테이블에 모든 ename정보 검색하기 -->
+	<select id="selectEname" resultType="string">
+	  select ename from emp
+	</select>
+	
+	<!-- 등록하기 -->
+	<insert id="insert" parameterType="emp"><!-- 패키지를 꼭 넣어줘야 찾을수있다 -->
+	  insert into emp(empno,ename,job,sal,hiredate) values(#{empno},#{empName},#{job},#{sal},sysdate)
+	</insert>
+	
+	<!-- 삭제하기.. 사원번호에 해당하는 정보 삭제 -->
+	<delete id="delete" parameterType="int">
+	  delete from emp where empno = #{_parameter}<!--한가지가 들어오면 그냥 _parameter로해도된다. -->
+	</delete>
+	
+	<!-- 사원번호에 해당하는 사원의 ename,job,sal수정하기 -->
+	<update id="update" parameterType="emp">
+	  update emp set ename=#{empName} ,job=#{job} ,sal=#{sal} where empno = #{empno}
+	</update>
+	
+	<!-- 검색 job에 해당하는 레코드 검색 -->
+	<select id="selectByJob" parameterType="string" resultType="emp">
+	  <include refid="empSelectMapper.empSelectSql"/>
+	  where job=#{_parameter}
+	
+	</select>
+	
+</mapper>
